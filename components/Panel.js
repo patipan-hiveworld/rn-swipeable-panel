@@ -77,7 +77,7 @@ class SwipeablePanel extends Component {
         } else if (gestureState.dy > 100 || gestureState.vy > 0.5) {
           if (this.state.status == STATUS.LARGE)
             this._animateTo(onlyLarge ? STATUS.CLOSED : STATUS.SMALL);
-          else this._animateTo(this.props.notClose ? 1 : 0);
+          else this._animateTo(this.props.disabledClose ? 1 : 0);
         } else this._animateTo(this.state.status);
       },
     });
@@ -294,7 +294,7 @@ SwipeablePanel.propTypes = {
   openLarge: PropTypes.bool,
   barStyle: PropTypes.object,
   noBar: PropTypes.bool,
-  notClose: PropTypes.bool,
+  disabledClose: PropTypes.bool,
   offsetTop: PropTypes.number,
   smallHeight: PropTypes.number,
 };
@@ -313,7 +313,7 @@ SwipeablePanel.defaultProps = {
   closeOnTouchOutside: false,
   allowTouchOutside: false,
   barStyle: {},
-  notClose: false,
+  disabledClose: false,
 };
 
 const SwipeablePanelStyles = StyleSheet.create({
