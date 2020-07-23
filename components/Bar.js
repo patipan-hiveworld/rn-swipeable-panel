@@ -14,13 +14,12 @@ const BarStyles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    height: 26,
   },
   bar: {
-    width: "10%",
-    height: 6,
+    width: "12%",
+    height: 4,
     borderRadius: 5,
-    marginTop: 10,
-    marginBottom: 10,
-    backgroundColor: "#e2e2e2",
+    backgroundColor: "#C6C6C8",
   },
 });
