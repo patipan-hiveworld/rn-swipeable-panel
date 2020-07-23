@@ -39,7 +39,7 @@ class SwipeablePanel extends Component {
       deviceWidth: FULL_WIDTH,
       deviceHeight: FULL_HEIGHT,
       panelHeight: PANEL_HEIGHT,
-      barHeight = 44,
+      barHeight: 44,
     };
 
     this.pan = new Animated.ValueXY({ x: 0, y: FULL_HEIGHT });
@@ -244,7 +244,7 @@ class SwipeablePanel extends Component {
           ]}
           {...this._panResponder.panHandlers}
         >
-          {!this.props.noBar && <Bar barStyle={barStyle} barHeight={barHeight} />}
+          {!this.props.noBar && <Bar barStyle={barStyle} barHeight={this.state.barHeight} />}
           {this.props.showCloseButton && (
             <Close
               rootStyle={closeRootStyle}
