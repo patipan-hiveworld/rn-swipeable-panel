@@ -1,9 +1,9 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-export const Bar = ({ barStyle }) => {
+export const Bar = ({ barStyle,barHeight }) => {
   return (
-    <View style={BarStyles.barContainer}>
+    <View style={[BarStyles.barContainer,{height: barHeight}]}>
       <View style={[BarStyles.bar, barStyle]} />
     </View>
   );
@@ -12,11 +12,12 @@ export const Bar = ({ barStyle }) => {
 const BarStyles = StyleSheet.create({
   barContainer: {
     display: "flex",
+    flexDirection: 'row',
     justifyContent: "center",
-    alignItems: "center",
-    height: 26,
+    alignItems: "flex-start",
   },
   bar: {
+    marginTop: 8,
     width: "12%",
     height: 4,
     borderRadius: 5,

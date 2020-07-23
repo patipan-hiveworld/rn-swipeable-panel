@@ -39,6 +39,7 @@ class SwipeablePanel extends Component {
       deviceWidth: FULL_WIDTH,
       deviceHeight: FULL_HEIGHT,
       panelHeight: PANEL_HEIGHT,
+      barHeight = 44,
     };
 
     this.pan = new Animated.ValueXY({ x: 0, y: FULL_HEIGHT });
@@ -153,13 +154,11 @@ class SwipeablePanel extends Component {
   _animateTo = (newStatus = 0) => {
     let newY = 0;
 
-    const barHeight = 26
-
     if (newStatus == STATUS.CLOSED) newY = PANEL_HEIGHT;
     else if (newStatus == STATUS.SMALL)
       newY =
         this.state.orientation === "portrait"
-          ? FULL_HEIGHT - this.props.smallHeight || 400 - barHeight - this.props.offsetTop || 0
+          ? FULL_HEIGHT - this.props.smallHeight || 400 - this.state.barHeight - this.props.offsetTop || 0
           : FULL_HEIGHT / 3;
     else if (newStatus == STATUS.LARGE) newY = 0;
 
@@ -245,7 +244,7 @@ class SwipeablePanel extends Component {
           ]}
           {...this._panResponder.panHandlers}
         >
-          {!this.props.noBar && <Bar barStyle={barStyle} />}
+          {!this.props.noBar && <Bar barStyle={barStyle} barHeight={barHeight} />}
           {this.props.showCloseButton && (
             <Close
               rootStyle={closeRootStyle}
