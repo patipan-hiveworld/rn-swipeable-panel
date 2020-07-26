@@ -25,6 +25,10 @@ const STATUS = {
   LARGE: 2,
 };
 
+function getKeyByValue(object, value) {
+  return Object.keys(object).find(key => object[key] === value);
+}
+
 class SwipeablePanel extends Component {
   constructor(props) {
     super(props);
@@ -110,21 +114,21 @@ class SwipeablePanel extends Component {
   };
 
   getOrientation = () => {
-    const dimesions = Dimensions.get("screen");
-    FULL_HEIGHT = dimesions.height;
-    FULL_WIDTH = dimesions.width;
+    const dimensions = Dimensions.get("screen");
+    FULL_HEIGHT = dimensions.height;
+    FULL_WIDTH = dimensions.width;
     PANEL_HEIGHT =  FULL_HEIGHT;
 
     this.setState({
       orientation:
-        dimesions.height >= dimesions.width ? "portrait" : "landscape",
+        dimensions.height >= dimensions.width ? "portrait" : "landscape",
       deviceWidth: FULL_WIDTH,
       deviceHeight: FULL_HEIGHT,
       panelHeight: PANEL_HEIGHT,
     });
 
     this.props.onClose();
-    return dimesions.height >= dimesions.width ? "portrait" : "landscape";
+    return dimensions.height >= dimensions.width ? "portrait" : "landscape";
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -136,8 +140,7 @@ class SwipeablePanel extends Component {
 
     if (prevProps.isActive !== isActive || prevProps.smallHeight !== smallHeight) {
       this.setState({ isActive });
-
-      if (isActive)
+      if (isActive) {
         this._animateTo(
           onlySmall
             ? STATUS.SMALL
@@ -147,7 +150,9 @@ class SwipeablePanel extends Component {
             ? STATUS.LARGE
             : STATUS.SMALL
         );
-      else this._animateTo();
+      } else {
+        this._animateTo();
+      }
     }
   }
 
@@ -183,6 +188,10 @@ class SwipeablePanel extends Component {
       } else
         this.setState({ canScroll: newStatus == STATUS.LARGE ? true : false });
     });
+
+    const status = getKeyByValue(STATUS,newStatus).toLowerCase();
+    this.props.onChangeStatus(status)
+
   };
 
   render() {
@@ -296,11 +305,13 @@ SwipeablePanel.propTypes = {
   disabledClose: PropTypes.bool,
   offsetTop: PropTypes.number,
   smallHeight: PropTypes.number,
+  onChangeStatus: PropTypes.func,
 };
 
 SwipeablePanel.defaultProps = {
   style: {},
   onClose: () => {},
+  onChangeStatus: () => {},
   fullWidth: true,
   closeRootStyle: {},
   closeIconStyle: {},
