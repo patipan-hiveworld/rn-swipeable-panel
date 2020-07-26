@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import {
   StyleSheet,
-  ScrollView,
   View,
-  TouchableHighlight,
   TouchableWithoutFeedback,
   Animated,
   Dimensions,
@@ -15,8 +13,8 @@ import { Close } from "./Close";
 
 import PropTypes from "prop-types";
 
-let windowHeight =  Dimensions.get("window").height;
 let windowWidth = Dimensions.get("window").width;
+let windowHeight =  Dimensions.get("window").height;
 
 const STATUS = {
   CLOSED: 0,
@@ -31,7 +29,6 @@ class SwipeablePanel extends Component {
       isActive: false,
       showComponent: false,
       opacity: new Animated.Value(0),
-      canScroll: false,
       status: STATUS.CLOSED,
       pan: new Animated.ValueXY({ x: 0, y: windowHeight }),
       orientation: windowHeight >= windowWidth ? "portrait" : "landscape",
@@ -177,8 +174,7 @@ class SwipeablePanel extends Component {
         this.setState({
           showComponent: false,
         });
-      } else
-        this.setState({ canScroll: newStatus == STATUS.LARGE ? false : false });
+      }
     });
 
     const status = this.getKeyByValue(STATUS,newStatus).toLowerCase();
@@ -219,9 +215,9 @@ class SwipeablePanel extends Component {
           SwipeablePanelStyles.background,
           {
             backgroundColor: noBackgroundOpacity
-              ? "rgba(0,0,0,0)"
+              ? "transparent"
               : "rgba(0,0,0,0.5)",
-            height: allowTouchOutside ? this.animatedPanelHeight() : windowHeight,
+            height: allowTouchOutside ? this.animatedPanelHeight() : panelHeight,
             width: panelWidth,
           },
         ]}
@@ -233,7 +229,6 @@ class SwipeablePanel extends Component {
                 SwipeablePanelStyles.background,
                 {
                   width: panelWidth,
-                  backgroundColor: "rgba(0,0,0,0)",
                   height: allowTouchOutside ? this.animatedPanelHeight() : panelHeight,
                 },
               ]}
@@ -262,25 +257,7 @@ class SwipeablePanel extends Component {
               onPress={this.props.onClose}
             />
           )}
-          <ScrollView
-            onTouchStart={() => {
-              return false;
-            }}
-            onTouchEnd={() => {
-              return false;
-            }}
-            contentContainerStyle={
-              SwipeablePanelStyles.scrollViewContentContainerStyle
-            }
-          >
-            {this.state.canScroll ? (
-              <TouchableHighlight>
-                <React.Fragment>{this.props.children}</React.Fragment>
-              </TouchableHighlight>
-            ) : (
-              this.props.children
-            )}
-          </ScrollView>
+          {this.props.children}
         </Animated.View>
       </Animated.View>
     ) : null;
@@ -333,7 +310,6 @@ const SwipeablePanelStyles = StyleSheet.create({
     bottom: 0,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)",
   },
   panel: {
     position: "absolute",
@@ -356,10 +332,7 @@ const SwipeablePanelStyles = StyleSheet.create({
     shadowRadius: 1.0,
     elevation: 1,
     zIndex: 2,
-  },
-  scrollViewContentContainerStyle: {
-    width: "100%",
-  },
+  }
 });
 
 export default SwipeablePanel;
