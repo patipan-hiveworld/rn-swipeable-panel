@@ -128,13 +128,13 @@ class SwipeablePanel extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    const { isActive, openLarge, onlyLarge, onlySmall } = this.props;
+    const { isActive, openLarge, onlyLarge, onlySmall, smallHeight } = this.props;
     if (onlyLarge && onlySmall)
       console.warn(
         "Ops. You are using both onlyLarge and onlySmall options. onlySmall will override the onlyLarge in this situation. Please select one of them or none."
       );
 
-    if (prevProps.isActive !== isActive) {
+    if (prevProps.isActive !== isActive || prevProps.smallHeight !== smallHeight) {
       this.setState({ isActive });
 
       if (isActive)
