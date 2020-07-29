@@ -137,9 +137,9 @@ class SwipeablePanel extends Component {
     return Object.keys(object).find(key => object[key] === value);
   }
 
-  genSmallPanelHeight = (height) => {
-    if (height) {
-      return windowHeight - height;
+  genSmallPanelHeight = (smallPanelHeight) => {
+    if (smallPanelHeight) {
+      return windowHeight - smallPanelHeight;
     } else {
       return windowHeight - 400;
     }
@@ -186,7 +186,7 @@ class SwipeablePanel extends Component {
     if (this.state.status === STATUS.CLOSED) {
       return 0
     } else if (this.state.status === STATUS.SMALL) {
-      return this.state.smallPanelHeight
+      return this.state.panelHeight - this.state.smallPanelHeight
     } else if (this.state.status === STATUS.LARGE) {
       return this.state.panelHeight
     }
